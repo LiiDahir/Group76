@@ -130,7 +130,7 @@ class Main:
             "Class": Class,
             "Image": Images,
         }
-        for i in range(len(ID)):
+        for i in range(0,len(ID)):
             db.insert_data(ID[i],Name[i],Class[i],6177,str(Images[i]))
 
         df = pd.DataFrame(data)
@@ -154,7 +154,7 @@ class Main:
         self.df = pd.read_csv(self.data+"dataset.csv")
         self.known_face_names = db.get_column("ID ")
         self.image_list = db.get_column("Image ")
-
+        print("Hello world : ",self.image_list)
     def recognize_face(self,test_image_path, distance_threshold=0.5):
         self.load_data()
         distance_threshold=distance_threshold
@@ -171,8 +171,8 @@ class Main:
             matched_names = np.array(self.known_face_names)[matches].tolist()
             matched_images = np.array(self.image_list)[matches].tolist()
             x=db.search_data(Image=matched_images[0])
-            self.present_faces(test_image, matched_images,matched_names)
-            # return x
+            # self.present_faces(test_image, matched_images,matched_names)
+            return x
         elif distance_threshold<0.5:
             self.recognize_face(test_image_path,distance_threshold=distance_threshold)
             return ("No match found for the test image.")
