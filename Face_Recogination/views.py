@@ -10,7 +10,7 @@ def index(request):
 def train(request):
     return render(request,"train.html",{"num_of_image":{"header":"","content":""},"info_of_image":{"dup_header":"","dup_content":"","remove_header":" ","rem_content":""}})
 def test(request):
-    return render(request,"test.html")
+    return render(request,"test.html",{})
 def rename(request):
     if request.method=="POST":
         images=request.FILES.getlist("Images")
@@ -26,13 +26,19 @@ def rename(request):
             
 
 def recognize_faces(request):
+    List =[]
+    sawir = ""
     if request.method=="POST":
+        for i in os.listdir("media/dataset/check"):
+            os.remove("media/dataset/check/"+i)
+
         images=request.FILES.getlist("Images")
         img=Images()
         for i in images:
             img.images=i
             img.save()
         for i in os.listdir("media/dataset/check"):
+            sawir = i
             x=obj.recognize_face("media/dataset/check/"+i,distance_threshold=0.35)
-            print("x waa : ",x)
-        return redirect("test")
+            List.append(x)
+        return render(request,"test.html",{"test_image":"media/dataset/check/"+sawir,"data":List[0]})

@@ -5,26 +5,101 @@
     <meta charset="UTF-8">
     <title>Data Training</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{% static 'js/main.js'%}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
     
 
 </head>
 <body>
     <div class="container">
         {% include 'navbar.html' %}
-        <h3 class="text-center m-2">Welcome Training Page </h3>
-        <form action="{% url 'recognize_faces' %}" id="upload-form" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file" class="form-control" id="Images" name="Images"   accept=".png, .jpg, .jpeg "><br>
-            <div class="">
-                <button type="submit" class="col-4 btn btn-primary">Test</button>
-                <button type="submit" class="col-4 btn btn-danger right ">cancel</button>
-            </div>
-        </form>
-       
+
+        <div class="form-section">
+            <h2>Add Student</h2>
+                <form action="{% url 'recognize_faces' %}" id="upload-form" method="post" enctype="multipart/form-data">
+                    <h3 class="text-center m-2">Welcome Training Page </h3>
+
+                    {% csrf_token %}
+                    <div class=" row ">
+<div class="col-4">
+
+    <input type="file" class="" id="student-image" name="Images"   accept=".png, .jpg, .jpeg " onchange="previewImage(event)">
+</div>
+<div class="card" style="width: 18rem; height: 200px; overflow: hidden;">
+    <img src="{{test_image}}" id="image-preview" class="card-img-top" alt="...">
+    
+  </div>
+                    <div class=" col-4">
+                        <button type="submit" class="col-4 btn btn-primary">Test</button>
+                        <button type="submit" class="col-4 btn btn-danger right ">cancel</button>
+                    </div>
+                    </div>
+                    <div>
+                        <img id="check" src="#" alt="Preview" style="max-width: 200px; display: none; margin: 0px; float: right;"><br>
+                    </div>
+                    
+                </form>
+        </div>
+
+        {% if data|length > 1 %}
+        <div class="table-section">
+            <h2>Student List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Tell</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+
+                    {% for row in data %}
+                    <tr onclick="displayImage(this)">
+                        <td>{{ row.0 }}</td>
+                        <td>{{ row.1 }}</td>
+                        <td>{{ row.2 }}</td>
+                        <td>{{ row.3 }}</td>
+                        <td>
+                            <img src="../{{ row.4 }}" class="student-image">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <!-- Add more rows here -->
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        {{data}}
+        {% endif %}
         
     </div>
     
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            const image = document.getElementById('image-preview');
+
+            reader.onload = function() {
+                image.src = reader.result;
+                image.style.display = 'block';
+            }
+
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function displayImage(row) {
+            const imagePreview = document.getElementById('check');
+            const studentImage = row.querySelector('.student-image');
+
+            imagePreview.src = studentImage.src;
+            imagePreview.style.display = 'block';
+        }
+    </script>
 </body>
 
 </html>
