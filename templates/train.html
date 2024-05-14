@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Training</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/main.js'%}"></script>
+    
+
+</head>
+<body>
+    <div class="container">
+        {% include 'navbar.html' %}
+        <h3 class="text-center m-2">Welcome Training Page </h3>
+        <form action="{% url 'rename' %}" id="upload-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" class="form-control" id="Images" name="Images"  directory multiple accept=".png, .jpeg, .jpg"><br>
+            <div class="">
+                <button type="submit" class="col-4 btn btn-primary">Train</button>
+                <button type="submit" class="col-4 btn btn-danger right ">cancel</button>
+            </div>
+        </form>
+        {% if info_of_image.dup_header != "" %}
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{info_of_image.remove_header}}</h5>
+                        <p class="card-text">{{info_of_image.rem_content}}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <!-- Add your second dashboard component here -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{info_of_image.dup_header}}</h5>
+                        <p class="card-text">{{info_of_image.dup_content}}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <!-- Add your third dashboard component here -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"> {{num_of_image.header}}</h5>
+                        <p class="card-text">{{num_of_image.content}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+    </div>
+    
+</body>
+
+</html>

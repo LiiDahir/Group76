@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Training</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/main.js'%}"></script>
+    
+
+</head>
+<body>
+    <div class="container">
+        {% include 'navbar.html' %}
+        <h3 class="text-center m-2">Welcome Training Page </h3>
+        <form action="{% url 'recognize_faces' %}" id="upload-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" class="form-control" id="Images" name="Images"   accept=".png, .jpg, .jpeg "><br>
+            <div class="">
+                <button type="submit" class="col-4 btn btn-primary">Test</button>
+                <button type="submit" class="col-4 btn btn-danger right ">cancel</button>
+            </div>
+        </form>
+       
+        
+    </div>
+    
+</body>
+
+</html>
