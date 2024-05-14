@@ -12,10 +12,11 @@ class Main:
         self.folder_path=""
         self.data=data
         self.test=test
-        pass
+
+
+
     def rename_files(self,folder_path="media/dataset/check/"):
         self.folder_path=folder_path
-        print("self.folder_path : ",self.folder_path,os.path.exists(self.folder_path))
         if  os.path.exists(self.folder_path):
             try:
                 os.makedirs(self.ddir)
@@ -29,11 +30,15 @@ class Main:
                 _, extension = os.path.splitext(file_name)
                 if extension.lower() in self.image_extensions:
                     self.image_files.append(file_name)
-        count=0
-        for i in self.image_files:
-            os.rename(self.folder_path+i,self.ddir+str(count)+".jpeg")
-            count+=1
-        return count
+                    os.rename(self.folder_path+file_name,self.ddir+str(len(self.image_files))+".jpeg")
+
+    
+        return len(self.image_files)
+    
+
+
+
+
     def generate(self):
         self.image_files = []
         for file_name in os.listdir(self.ddir):
@@ -78,7 +83,6 @@ class Main:
             Class.append(fasal[last])
             file=self.ddir + self.image_files[i]
             Images.append(file)
-            db.insert_data(IDga,full_name,fasal[last],6177,str(file))
             image = face_recognition.load_image_file(file)
             face_encoding = face_recognition.face_encodings(image)
             encode_test=np.array(encode)
@@ -126,6 +130,8 @@ class Main:
             "Class": Class,
             "Image": Images,
         }
+        for i in range(len(ID)):
+            db.insert_data(ID[i],Name[i],Class[i],6177,str(Images[i]))
 
         df = pd.DataFrame(data)
 
@@ -146,8 +152,8 @@ class Main:
             data = pickle.load(file)
         self.known_face_encodings = data["encodings"]
         self.df = pd.read_csv(self.data+"dataset.csv")
-        self.known_face_names = self.df["ID"].tolist()
-        self.image_list = self.df["Image"].tolist()
+        self.known_face_names = db.get_column("ID ")
+        self.image_list = db.get_column("Image ")
 
     def recognize_face(self,test_image_path, distance_threshold=0.5):
         self.load_data()
@@ -160,18 +166,16 @@ class Main:
 
         face_distances = face_recognition.face_distance(self.known_face_encodings, test_face_encodings[0])
         matches = face_distances < distance_threshold
-        print("matches waa kan : ",matches)
         distance_threshold+=0.1
         if np.any(matches):
             matched_names = np.array(self.known_face_names)[matches].tolist()
             matched_images = np.array(self.image_list)[matches].tolist()
-            # self.present_faces(test_image, matched_images,matched_names)
-            print("matches wa : ",self.known_face_names,matches,)
-            return ("The person(s) in the test image are:", ", ".join(matched_names))
+            x=db.search_data(Image=matched_images[0])
+            self.present_faces(test_image, matched_images,matched_names)
+            # return x
         elif distance_threshold<0.5:
             self.recognize_face(test_image_path,distance_threshold=distance_threshold)
             return ("No match found for the test image.")
-        
             
 
     def present_faces(self,test_image, matched_images,matched_names):

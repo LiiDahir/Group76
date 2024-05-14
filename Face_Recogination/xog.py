@@ -102,7 +102,7 @@ class Data:
         except Error as e:
             print(e)
 
-    def search_data(self, ID=None, name=None, student_class=None, telphone=None):
+    def search_data(self, ID=None, name=None, student_class=None, telphone=None,Image=None):
         """Search for rows in the Student table."""
         conditions = []
         params = []
@@ -119,7 +119,9 @@ class Data:
         if telphone:
             conditions.append("Telphone = ?")
             params.append(telphone)
-
+        if Image:
+            conditions.append("Image = ?")
+            params.append(Image)
         conditions_str = ' AND '.join(conditions) if conditions else '1=1'
 
         sql = f"SELECT * FROM Student WHERE {conditions_str}"
@@ -127,18 +129,30 @@ class Data:
             cur = self.conn.cursor()
             cur.execute(sql, tuple(params))
             rows = cur.fetchall()
-            print(f"Search results for conditions: {conditions_str}")
+            rows= [list(item) for item in rows]
             return rows
         except Error as e:
             print(e)
             return []
+    def get_column(self,col):
+        sql = "Select " + col + "from Student"
+        try: 
+            cur = self.conn.cursor()
+            cur.execute(sql)
+            rows = cur.fetchall()
+            modify_row = [item[0] for item in rows]
+            return modify_row
+        except Error as e:
+            print(e)
+            return []
+
 
 # Example usage of the module
-# if __name__ == "__main__":
-#     db = Data()
-#     # db.create_table()
-#     x=db.count()
-#     print(x)
+if __name__ == "__main__":
+    db = Data()
+    print(db.count())
+#     print(db.search_data("C118001"))
+    
 # #     # Insert data
 #     db.insert_data("1", "Alice", "10th Grade", "1234567890", "alice.png")
 #     db.insert_data("2", "Bob", "9th Grade", "0987654321", "bob.png")
