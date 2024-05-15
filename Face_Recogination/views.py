@@ -13,6 +13,11 @@ def test(request):
     return render(request,"test.html",{})
 def rename(request):
     if request.method=="POST":
+        try:
+            for i in os.listdir("media/dataset/check"):
+                os.remove("media/dataset/check/"+i)
+        except:
+            pass
         images=request.FILES.getlist("Images")
         img=Images()
         for i in images:
@@ -29,8 +34,11 @@ def recognize_faces(request):
     List =[]
     sawir = ""
     if request.method=="POST":
-        for i in os.listdir("media/dataset/check"):
-            os.remove("media/dataset/check/"+i)
+        try:
+            for i in os.listdir("media/dataset/check"):
+                os.remove("media/dataset/check/"+i)
+        except:
+            pass
 
         images=request.FILES.getlist("Images")
         img=Images()
