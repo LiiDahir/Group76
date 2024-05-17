@@ -129,8 +129,11 @@ class Data:
             cur = self.conn.cursor()
             cur.execute(sql, tuple(params))
             rows = cur.fetchall()
-            rows= [list(item) for item in rows]
-            return rows
+            List = []
+            for i in rows:
+                for n in i:
+                    List.append(n)
+            return List
         except Error as e:
             print(e)
             return []
@@ -147,23 +150,3 @@ class Data:
             return []
 
 
-# Example usage of the module
-if __name__ == "__main__":
-    db = Data()
-    print(db.count())
-#     print(db.search_data("C118001"))
-    
-# #     # Insert data
-#     db.insert_data("1", "Alice", "10th Grade", "1234567890", "alice.png")
-#     db.insert_data("2", "Bob", "9th Grade", "0987654321", "bob.png")
-
-#     # Update data
-#     db.update_data("1", name="Alicia")
-
-#     # Search data
-#     results = db.search_data(name="Alicia")
-#     for row in results:
-#         print(row)
-
-#     # Delete data
-#     db.delete_data("2")
