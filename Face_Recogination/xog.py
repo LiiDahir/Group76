@@ -47,6 +47,26 @@ class Data:
         except Error as e:
             print(e)
 
+
+   
+
+    def create_user(self):
+        """Create the User table if it does not exist."""
+        create_table_sql = """
+        CREATE TABLE IF NOT EXISTS Users (
+            User text NOT NULL unique,
+            Gmail text NOT NULL unique,
+            Pass text NOT NULL
+        );
+        """
+        try:
+            c = self.conn.cursor()
+            c.execute(create_table_sql)
+            c.execute("insert into Users (User,Gmail,Pass) (administrator,administrator@gmail.com,admin)")
+            print("Table Users created or already exists.")
+        except Error as e:
+            return e
+
     def insert_data(self, ID, name, student_class, telphone, image):
         """Insert a new row into the Student table."""
         sql = "INSERT INTO Student (ID, Name, Class, Telphone, Image) VALUES (?, ?, ?, ?, ?)"
@@ -58,6 +78,19 @@ class Data:
         except Error as e:
             print(e)
 
+
+    def insert_user(self, User, gmail, Pass):
+        """Insert a new row into the Student table."""
+        sql = "INSERT INTO Users (User, gmail, Pass) VALUES (?, ?, ?)"
+        try:
+            cur = self.conn.cursor()
+            cur.execute(sql, (User, gmail, Pass))
+            self.conn.commit()
+            print(f"Inserted User: ID={User}, Name={gmail}, Class={Pass}")
+        except Error as e:
+            return e
+
+            
     def update_data(self, ID, name=None, student_class=None, telphone=None, image=None):
         """Update rows in the Student table."""
         updates = []
@@ -102,6 +135,29 @@ class Data:
         except Error as e:
             print(e)
 
+
+    def get_user(self,user=None):
+        conditions = []
+        params = []
+
+        if user:
+            conditions.append("User = ?")
+            params.append(user)
+        conditions_str = ' AND '.join(conditions) if conditions else '1=1'
+
+        sql = f"SELECT * FROM Users WHERE {conditions_str}"
+        try:
+            cur = self.conn.cursor()
+            cur.execute(sql, tuple(params))
+            rows = cur.fetchall()
+            List = []
+            for i in rows:
+                for n in i:
+                    List.append(n)
+            return List
+        except Error as e:
+            return e
+
     def search_data(self, ID=None, name=None, student_class=None, telphone=None,Image=None):
         """Search for rows in the Student table."""
         conditions = []
@@ -129,8 +185,11 @@ class Data:
             cur = self.conn.cursor()
             cur.execute(sql, tuple(params))
             rows = cur.fetchall()
-            rows= [list(item) for item in rows]
-            return rows
+            List = []
+            for i in rows:
+                for n in i:
+                    List.append(n)
+            return List
         except Error as e:
             print(e)
             return []
@@ -147,23 +206,3 @@ class Data:
             return []
 
 
-# Example usage of the module
-if __name__ == "__main__":
-    db = Data()
-    print(db.count())
-#     print(db.search_data("C118001"))
-    
-# #     # Insert data
-#     db.insert_data("1", "Alice", "10th Grade", "1234567890", "alice.png")
-#     db.insert_data("2", "Bob", "9th Grade", "0987654321", "bob.png")
-
-#     # Update data
-#     db.update_data("1", name="Alicia")
-
-#     # Search data
-#     results = db.search_data(name="Alicia")
-#     for row in results:
-#         print(row)
-
-#     # Delete data
-#     db.delete_data("2")
