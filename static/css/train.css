@@ -58,3 +58,7 @@ h3 {
 .shadow-sm {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
+
+.progress-bar {
+    background-color: #0072ff !important;
+}
