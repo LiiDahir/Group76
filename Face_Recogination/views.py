@@ -6,7 +6,7 @@ from .models import *
 obj=Main()
 # Create your views here.
 def index(request):
-    return render(request,"index.html")
+    return render(request,"login.html")
 def train(request):
     return render(request,"train.html",{"num_of_image":{"header":"","content":""},"info_of_image":{"dup_header":"","dup_content":"","remove_header":" ","rem_content":""}})
 def test(request):
