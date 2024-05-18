@@ -1,4 +1,5 @@
 import os,random,face_recognition,pickle,numpy as np,cv2
+import requests
 # import pickle,random,cv2,face_recognition,pandas as pd,numpy as np
 from pathlib import Path
 import Face_Recogination.xog as xog
@@ -45,9 +46,7 @@ class Main:
     
 
 
-    def generate(self,total):
-        size = total/100
-        processive = 0
+    def generate(self,):
         first_male = ["Liban", "khadar", "Abas", "suleyman", "Omar", "Abdullahi"]
         first_female = ["khadro", "sacdiyo", "xalimo", "caasho", "safiyo", "ruweydo"]
         second_names = ["Yaxye", "mohamed", "Axmed", "Maxmuud", "Abdiqaadir", "Da'ud"]
@@ -83,7 +82,7 @@ class Main:
                     second = random.randint(0, last_second_names_index)
                     last = random.randint(0, last_last_names_index)
                     full_name = first_male[first] + " " + second_names[second] + " " + last_names[last]
-                
+
                     file=self.folder_path + file_name
                    
                     image = face_recognition.load_image_file(file)

@@ -6,22 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
-    <script src="{% static 'js/main.js'%}"></script>
+    <script src="{% static 'js/main.js' %}" defer></script>
     <title>Dashboard</title>
 </head>
 <body>
-    <div class="container">
-        {% include 'navbar.html' %}
-    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'train' %}">Train Model</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'test' %}">Test Model</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
                 <h3 class="text-center mt-4">Welcome to Our Dashboard</h3>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mt-4">
             <div class="col-md-4">
-                <div class="card">
+                <div class="card shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">Component 1</h5>
                         <p class="card-text">This is the first component of the dashboard.</p>
@@ -30,8 +54,7 @@
             </div>
             
             <div class="col-md-4">
-                <!-- Add your second dashboard component here -->
-                <div class="card">
+                <div class="card shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">Component 2</h5>
                         <p class="card-text">This is the second component of the dashboard.</p>
@@ -40,11 +63,39 @@
             </div>
             
             <div class="col-md-4">
-                <!-- Add your third dashboard component here -->
-                <div class="card">
+                <div class="card shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">Component 3</h5>
                         <p class="card-text">This is the third component of the dashboard.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Component 4</h5>
+                        <p class="card-text">This is the fourth component of the dashboard.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Component 5</h5>
+                        <p class="card-text">This is the fifth component of the dashboard.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Component 6</h5>
+                        <p class="card-text">This is the sixth component of the dashboard.</p>
                     </div>
                 </div>
             </div>
