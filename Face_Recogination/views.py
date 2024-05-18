@@ -15,7 +15,7 @@ def check(request):
         Pass = request.POST ["pass"]
         userka = db.get_user(user)
         print("userka waa : ",userka)
-        if user == userka[0] and Pass == userka[1]:
+        if user == userka[0] and Pass == userka[2]:
             return render(request,"index.html")
     return render(request,"login.html",{"user":Pass})
 def save(request):
