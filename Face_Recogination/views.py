@@ -7,6 +7,34 @@ from .models import *
 db.create_user()
 obj=Main()
 # Create your views here.
+def login(request):
+    return render(request,"login.html",{"user":""})
+def check(request):
+    if request.method == "POST":
+        user = request.POST ["user"]
+        Pass = request.POST ["pass"]
+        userka = db.get_user(user)
+        print("userka waa : ",userka)
+        if user == userka[0] and Pass == userka[1]:
+            return render(request,"index.html")
+    return render(request,"login.html",{"user":Pass})
+def save(request):
+    if request.method == "POST":
+        user = request.POST ["user"]
+        Pass = request.POST ["pass"]
+        gmai = request.POST ["gmail"]
+        print("gmail waa : ",gmai[-10:])
+        if gmai[-10:] == "@gmail.com":
+            x = db.insert_user(user,gmai,Pass)
+            print(x)
+            if x == None:
+                return render(request,"login.html",{"user": "user is created successfully"})
+            else:
+                return render(request,"login.html",{"user": x})
+            
+        else:
+            return render(request,"login.html",{"user":"invalid gmail"})
+
 def index(request):
     return render(request,"index.html")
 def train(request):
