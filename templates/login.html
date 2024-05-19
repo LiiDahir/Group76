@@ -9,7 +9,6 @@
 
 </head>
 <body>
-    {{user}}
     <div class="container">
         <div class="form-container">
             <div class="form-toggle">
@@ -18,12 +17,15 @@
             </div>
             <form id="loginForm" class="form" action="{% url 'check' %}" method="post">
                 {% csrf_token %}
+                {{user}}
                 <h2>Login</h2>
+
                 <input type="text" name="user" placeholder="Username" required>
                 <input type="password"name="pass" placeholder="Password" required>
                 <button type="submit">Login</button>
             </form>
             <form id="signupForm" class="form hidden" action="{% url 'save' %}" method="post">
+                {{user}}
                 <h2>Signup</h2>
                 {% csrf_token %}
                 <input type="text"  name = "user" placeholder="Username" required>

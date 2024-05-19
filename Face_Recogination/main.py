@@ -120,12 +120,18 @@ class Main:
     
     def load_data(self):
         # Read pickle data
-        pickle_file_path = self.data+"encodings.pkl"
-        with open(pickle_file_path, 'rb') as file:
-            data = pickle.load(file)
-        self.known_face_encodings = data["encodings"]
-        self.known_face_names    = data["ID"]    
-        self.image_list = db.get_column("Image ")
+        try:
+            pickle_file_path = self.data+"encodings.pkl"
+            with open(pickle_file_path, 'rb') as file:
+                data = pickle.load(file)
+            self.known_face_encodings = data["encodings"]
+            self.known_face_names    = data["ID"]    
+            self.image_list = db.get_column("Image ")
+        except:
+            self.known_face_encodings = []
+            self.known_face_names    = []    
+            self.image_list = db.get_column("Image ")
+
     def recognize_face(self,test_image_path, distance_threshold=0.5):
         self.load_data()
         distance_threshold=distance_threshold

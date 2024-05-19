@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import request,HttpResponse
 from django.http import JsonResponse
+
+
 from .main import *
 from .xog import *
 from .models import *
@@ -41,8 +43,15 @@ def train(request):
     return render(request,"train.html",{"num_of_image":{"header":"","content":""},"info_of_image":{"dup_header":"","dup_content":"","remove_header":" ","rem_content":""}})
 def test(request):
     return render(request,"test.html",{})
-def setting(request):
-    return render(request,"set.html")
+
+
+def logout(request):
+    response = HttpResponse(redirect("login"))
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
+
 
 def rename(request):
     if request.method=="POST":
