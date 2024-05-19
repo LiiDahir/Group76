@@ -1,5 +1,4 @@
 import os,random,face_recognition,pickle,numpy as np,cv2
-import requests
 # import pickle,random,cv2,face_recognition,pandas as pd,numpy as np
 from pathlib import Path
 import Face_Recogination.xog as xog
