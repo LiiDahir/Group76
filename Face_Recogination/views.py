@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
 from django.http import request,HttpResponse
 from django.http import JsonResponse
+from django.contrib.auth import logout
+from django.utils.decorators import decorator_from_middleware
+from Group76.middleware import NoCacheMiddleware
 
 
 from .main import *
@@ -46,8 +49,8 @@ def test(request):
 
 
 def logout(request):
-    response = HttpResponse(redirect("login"))
-    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response = redirect('login')
+    response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'
     return response

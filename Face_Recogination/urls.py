@@ -7,7 +7,7 @@ urlpatterns=[
     path("dashboard/",index,name="index"),
     path("train/",train,name="train"),
     path("test/",test,name="test"),
-    path("setting/",setting,name="setting"),
+    path("logout/",logout,name="logout"),
     path("rename/",rename,name="rename"),
     path("recognize_faces/",recognize_faces,name="recognize_faces")
 
