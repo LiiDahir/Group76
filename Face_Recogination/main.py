@@ -91,7 +91,7 @@ class Main:
                         face_distances = face_recognition.face_distance(encode_test, face_encoding[0])
                         matches = face_distances < 0.1
                         face_distances_test = face_recognition.face_distance(encode_test, face_encoding[0])
-                        matches_test = face_distances_test < 0.5
+                        matches_test = face_distances_test < 0.4
                         if np.any(matches):
                             count+=1
                         elif np.any(matches_test):
@@ -134,6 +134,7 @@ class Main:
     def recognize_face(self,test_image_path, distance_threshold=0.5):
         self.load_data()
         distance_threshold=distance_threshold
+        print(distance_threshold)
         test_image = face_recognition.load_image_file(test_image_path)
         test_face_encodings = face_recognition.face_encodings(test_image)
 
@@ -149,7 +150,7 @@ class Main:
                 x = db.search_data(i)
                 all.append(x)
             return all
-        elif distance_threshold<0.5:
+        elif distance_threshold<0.4:
             distance_threshold+=0.1
             x = self.recognize_face(test_image_path,distance_threshold)
             return x

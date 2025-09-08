@@ -91,6 +91,6 @@ def recognize_faces(request):
             img.save()
         for i in os.listdir("media/dataset/check"):
             sawir = i
-            x=obj.recognize_face("media/dataset/check/"+i,distance_threshold=0.35)
+            x=obj.recognize_face("media/dataset/check/"+i,distance_threshold=0.25)
             List.append(x)
         return render(request,"test.html",{"test_image":"media/dataset/check/"+sawir,"data":List[0]})
